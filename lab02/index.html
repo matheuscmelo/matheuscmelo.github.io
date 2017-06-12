@@ -39,7 +39,8 @@
 
         </div>
         <!-- Series grid -->
-        <div class="row row-eq-height" ng-repeat="row in chunkedSearchedSeries">
+        <h1 ng-if="searched && chunkedSearchedSeries.length == 0">Nenhuma série encontrada :(</h1>
+        <div class="row row-eq-height" ng-repeat="row in chunkedSearchedSeries" ng-if="chunkedSearchedSeries.length != 0">
           <div class="col-md-3 thumbnail" ng-repeat="serie in row">
             <img class="center-block img-responsive" ng-if="serie.Poster != 'N/A'" src="{{serie.Poster}}" class="image">
             <img class="center-block img-responsive" ng-if="serie.Poster == 'N/A'" src="http://donosdeestimacao.com.br/wp-content/uploads/2015/12/sem-imagem2-300x300.png" class="image">
@@ -55,18 +56,18 @@
       <div id="minhasSeries" class="tab-pane fade">
           <div class="row">
             <div class="col-md-12">
-            <input ng-model="minhasSeriesFilter" class="form-control" placeholder="Filtrar..."></div>
+            <input ng-model="serieTitle" class="form-control" placeholder="Filtrar..."></div>
           </div>
           <div class="row row-eq-height" ng-repeat="row in chunkedMySeries">
-          <div class="col-md-3 thumbnail    " ng-repeat="serie in row">
+          <div class="col-md-3 thumbnail" ng-repeat="serie in row | filter: titleFilter(serieTitle)">
             <img class="center-block img-responsive" ng-if="serie.Poster != 'N/A'" src="{{serie.Poster}}" class="image">
             <img class="center-block img-responsive" ng-if="serie.Poster == 'N/A'" src="http://donosdeestimacao.com.br/wp-content/uploads/2015/12/sem-imagem2-300x300.png" class="image">
             <div class="overlay">
                 <div class="text">
                 <span>{{serie.Title}}</span></div>
-                <div class="series-icons">
                 <div class="row">
-                    <i ng-click="removeFromMySeries(serie)" class="series-icons glyphicon glyphicon-remove-sign"></i>
+                <div class="series-icons">
+                    <i ng-click="removeFromMySeries(serie)" class="glyphicon glyphicon-remove-sign"></i>
                     <i data-toggle="modal" data-target="#serieModal{{$index}}" class="glyphicon glyphicon-zoom-in"></i>
                 </div>
             </div>
@@ -85,12 +86,18 @@
 
                     <div class="col-md-4">
                     <img class="image-responsive" src="{{serie.Poster}}"></div>
-                    <div class="col-md-8">{{serie.Plot}}</div>
+                    <div class="col-md-7 series-text">
+
+                    <p>{{serie.Plot}}</p>
+                    <p>Classificação etária: {{serie.Rated}}</p>
+                    <p>Média iMDb: {{serie.imdbRating}}</p>
+                    
+                    </div>
                     </div>
                     
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
             </div>

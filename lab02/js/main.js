@@ -3,6 +3,7 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 	$scope.mySeries = [];
 	$scope.chunkedMySeries = [];
 	$scope.chunkedSearchedSeries = [];
+	$scope.searched = false;
 
 	function chunkMySeries() {
 		$scope.chunkedMySeries = chunk($scope.mySeries, 4);
@@ -11,7 +12,7 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 	function pushFullSerie(serie) {
 		var index = $scope.mySeries.indexOf(serie);
 
-		var promise = $http.get('https://omdbapi.com/?t=' + serie.Title + '&apikey=93330d3c');
+		var promise = $http.get('https://omdbapi.com/?i=' + serie.imdbID + '&plot=full&apikey=93330d3c');
 
 		promise.then(function(response) {
 			var fullSerie = response.data;
@@ -19,6 +20,7 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 				$scope.mySeries.push(fullSerie);
 				chunkMySeries();
 			}
+			
 		}).catch(function(error) {
 			console.log(error);
 		});
@@ -50,13 +52,27 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 		if (index > -1) {
 			$scope.mySeries.splice(index, 1);
 		}
-		$scope.chunkedMySeries = chunk($scope.mySeries, 4);
+		chunkMySeries();
 	};
+
+	$scope.titleFilter = function(title) {
+		return function(serie) {
+			if (!title){
+				return true;
+			}
+			return serie.Title.toLowerCase().indexOf(title.toLowerCase()) != -1;
+		}
+	}
 
 	$scope.getShortSeries = function(name) {
 		var promise = $http.get('https://omdbapi.com/?s=' + name + '&type=series&apikey=93330d3c');
 		promise.then(function(response) {
-			$scope.chunkedSearchedSeries = chunk(response.data.Search, 4);
+			$scope.searched = true;
+			if(response.data.Response == 'True'){
+				$scope.chunkedSearchedSeries = chunk(response.data.Search, 4);
+			} else {
+				$scope.chunkedSearchedSeries = [];
+			}
 		}).catch(function(error) {
 			console.log(error);
 		});

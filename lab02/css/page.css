@@ -46,11 +46,6 @@ h4 {
   margin-bottom: 0;
 }
 
-.thumbail {
-  position: relative;
-  width: 50%;
-}
-
 .image {
   display: block;
   width: 100%;
@@ -92,5 +87,9 @@ h4 {
 	top: 80%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-  	-ms-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.series-text {
+  left: 2%;
 }
