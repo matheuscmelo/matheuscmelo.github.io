@@ -47,10 +47,19 @@
             <div class="overlay">
                 <div class="text">
                 <span>{{serie.Title}}</span></div>
-                <div class="series-icons"><i ng-click="addToMySeries(serie)" class="series-icons glyphicon glyphicon-plus-sign"></i></div>
+                <div class="series-icons">
+	                <div class="dropdown">
+		                <i data-toggle="dropdown" class="dropdown-toggle series-icons glyphicon glyphicon-plus-sign"></i>
+							<span class="caret"></span></button>
+							<ul class="dropdown-menu dropdown-menu-right">
+		    					<li><a ng-click="addToMySeries(serie)">Minhas Séries</a></li>
+		    					<li><a href="#">Watchlist</a></li>
+		  					</ul>
+					</div>
                 </div>
             </div>
         </div>
+      </div>
       </div>
       <!-- Minhas series -->
       <div id="minhasSeries" class="tab-pane fade">
