@@ -1,5 +1,5 @@
 angular.module('Series', []).controller('SeriesController', function($scope, $http) {
-	
+
 	$scope.mySeries = [];
 	$scope.chunkedMySeries = [];
 	$scope.chunkedSearchedSeries = [];
@@ -20,7 +20,7 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 				$scope.mySeries.push(fullSerie);
 				chunkMySeries();
 			}
-			
+
 		}).catch(function(error) {
 			console.log(error);
 		});
@@ -77,5 +77,13 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 			console.log(error);
 		});
 	};
+
+	$scope.setLastEpisode = function(name, serie) {
+		serie.LastEpisode = name;
+	};
+
+	$scope.setMyScore = function(score, serie) {
+		serie.MyScore = score;
+	}
 
 });
