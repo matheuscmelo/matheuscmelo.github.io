@@ -1,29 +1,34 @@
 angular.module('Series', []).controller('SeriesController', function($scope, $http) {
 
-	$scope.mySeries = [];
+	var mySeries = [];
+	var watchlist = [];
 	$scope.chunkedMySeries = [];
 	$scope.chunkedSearchedSeries = [];
+	$scope.chunkedWatchlist = [];
 	$scope.searched = false;
 
 	function chunkMySeries() {
-		$scope.chunkedMySeries = chunk($scope.mySeries, 4);
+		$scope.chunkedMySeries = chunk(mySeries, 4);
+	}
+
+	function chunkWatchlist() {
+				$scope.chunkedWatchlist = chunk(watchlist, 4);
 	}
 
 	function pushFullSerie(serie) {
-		var index = $scope.mySeries.indexOf(serie);
-
+		if(!containsSerie(mySeries, serie)) {
 		var promise = $http.get('https://omdbapi.com/?i=' + serie.imdbID + '&plot=full&apikey=93330d3c');
 
 		promise.then(function(response) {
 			var fullSerie = response.data;
-			if(!containsSerie($scope.mySeries, fullSerie)) {
-				$scope.mySeries.push(fullSerie);
+				mySeries.push(fullSerie);
 				chunkMySeries();
-			}
-
-		}).catch(function(error) {
+			}).catch(function(error) {
 			console.log(error);
 		});
+		} else {
+			alert('Esta série já está presente nas suas séries!');
+		}
 	};
 
 	function chunk(arr, size) {
@@ -35,23 +40,27 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 	};
 
 	function containsSerie(array, serie) {
-		for (var i = 0; i > $scope.mySeries.length; i++) {
-			if($scope.mySeries[i].Title == serie.Title) {
+		for (var i = 0; i < mySeries.length; i++) {
+			if(mySeries[i].Title.toLowerCase() == serie.Title.toLowerCase()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+	function removeSerie(array, serie) {
+		var index = array.indexOf(serie);
+		if (index > -1) {
+			array.splice(index, 1);
+		}
+	};
+
 	$scope.addToMySeries = function(serie) {
 			pushFullSerie(serie);
 	};
 
 	$scope.removeFromMySeries = function(serie) {
-		var index = $scope.mySeries.indexOf(serie);
-		if (index > -1) {
-			$scope.mySeries.splice(index, 1);
-		}
+		removeSerie(mySeries, serie);
 		chunkMySeries();
 	};
 
@@ -77,6 +86,18 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 			console.log(error);
 		});
 	};
+
+	$scope.addToWatchlist = function(serie) {
+		if(!containsSerie(watchlist, serie)){
+			watchlist.push(serie);
+			chunkWatchlist();
+		}
+	};
+
+	$scope.removeFromWatchlist = function(serie) {
+		removeSerie(watchlist, serie);
+		chunkWatchlist();
+	}
 
 	$scope.setLastEpisode = function(name, serie) {
 		serie.LastEpisode = name;
