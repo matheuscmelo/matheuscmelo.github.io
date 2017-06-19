@@ -57,11 +57,14 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 
 	$scope.addToMySeries = function(serie) {
 			pushFullSerie(serie);
+			$scope.removeFromWatchlist(serie);
 	};
 
 	$scope.removeFromMySeries = function(serie) {
+		if(confirm("Tem certeza?")){
 		removeSerie(mySeries, serie);
 		chunkMySeries();
+	}
 	};
 
 	$scope.titleFilter = function(title) {
@@ -88,7 +91,8 @@ angular.module('Series', []).controller('SeriesController', function($scope, $ht
 	};
 
 	$scope.addToWatchlist = function(serie) {
-		if(!containsSerie(watchlist, serie)){
+		if(!containsSerie(watchlist, serie)) {
+			console.log(serie.Title);
 			watchlist.push(serie);
 			chunkWatchlist();
 		}
