@@ -8,11 +8,11 @@ function SeriesController ($scope, RESTService, SeriesRepository) {
 	$scope.searched = false;
 
 	function chunkMySeries() {
-		$scope.chunkedMySeries = chunk(mySeries, 4);
+		$scope.chunkedMySeries = SeriesRepository.getChunkedMySeries();
 	}
 
 	function chunkWatchlist() {
-				$scope.chunkedWatchlist = chunk(watchlist, 4);
+		$scope.chunkedWatchlist = SeriesRepository.getChunkedWatchlist();
 	}
 
 	function chunk(arr, size) {
@@ -27,7 +27,9 @@ function SeriesController ($scope, RESTService, SeriesRepository) {
 			var promise = RESTService.getFullSerie(serie);
 			promise.then(function(response) {
 				if(SeriesRepository.addToMySeries(response.data)) {
-					$scope.chunkedMySeries = SeriesRepository.getChunkedMySeries();
+					SeriesRepository.removeFromWatchlist(serie);
+					chunkMySeries();
+					chunkWatchlist();
 				} else {
 					alert('Esta série já está presente nas suas séries!');
 				}
@@ -37,8 +39,11 @@ function SeriesController ($scope, RESTService, SeriesRepository) {
 	};
 
 	$scope.removeFromMySeries = function(serie) {
-		removeSerie(mySeries, serie);
-		chunkMySeries();
+		if(confirm('Deseja realmente remover esta série?')) {
+			SeriesRepository.removeFromMySeries(serie);
+			chunkMySeries();
+			alert('Série removida.');
+		}
 	};
 
 	$scope.titleFilter = function(title) {
@@ -67,23 +72,16 @@ function SeriesController ($scope, RESTService, SeriesRepository) {
 	};
 
 	$scope.addToWatchlist = function(serie) {
-		if(!containsSerie(watchlist, serie)){
-			watchlist.push(serie);
-			chunkWatchlist();
-		}
+		SeriesRepository.addToWatchlist(serie);
+		chunkWatchlist();
 	};
 
-	$scope.removeFromWatchlist = function(serie) {
-		removeSerie(watchlist, serie);
-		chunkWatchlist();
-	}
-
 	$scope.setLastEpisode = function(name, serie) {
-		serie.LastEpisode = name;
+		SeriesRepository.setLastEpisode(name, serie);
 	};
 
 	$scope.setMyScore = function(score, serie) {
-		serie.MyScore = score;
+		SeriesRepository.setMyScore(score, serie);
 	}
 
 

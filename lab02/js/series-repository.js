@@ -1,10 +1,14 @@
 angular.module('Series').service('SeriesRepository', function() {
   this.mySeries = [];
-  this.watchList = [];
+  this.watchlist = [];
   this.addToMySeries = addToMySeries;
   this.removeFromMySeries = removeFromMySeries;
+  this.removeFromWatchlist = removeFromWatchlist;
   this.addToWatchlist = addToWatchlist;
   this.getChunkedMySeries = getChunkedMySeries;
+  this.getChunkedWatchlist = getChunkedWatchlist;
+  this.setLastEpisode = setLastEpisode;
+  this.setMyScore = setMyScore;
 
   function addToMySeries(serie) {
     if (!containsSerie(this.mySeries, serie)) {
@@ -20,7 +24,7 @@ angular.module('Series').service('SeriesRepository', function() {
   };
 
   function addToWatchlist(serie) {
-    if(!containsSerie(this.watchlist, serie)) {
+    if(!containsSerie(this.watchlist, serie) && !containsSerie(this.mySeries, serie)) {
       this.watchlist.push(serie);
       return true;
     } else {
@@ -28,7 +32,7 @@ angular.module('Series').service('SeriesRepository', function() {
     }
   }
 
-  function removeFromWatchlist(series) {
+  function removeFromWatchlist(serie) {
     removeSerie(this.watchlist, serie);
   };
 
@@ -41,6 +45,10 @@ angular.module('Series').service('SeriesRepository', function() {
 
   function getChunkedMySeries() {
     return chunk(this.mySeries, 4);
+  }
+
+  function getChunkedWatchlist() {
+    return chunk(this.watchlist, 4);
   }
 
   function containsSerie(array, serie) {
@@ -59,6 +67,14 @@ angular.module('Series').service('SeriesRepository', function() {
     }
     return newArr;
   };
+
+  function setLastEpisode(name, serie) {
+		serie.LastEpisode = name;
+	};
+
+  function setMyScore(score, serie) {
+		serie.MyScore = score;
+	};
 
 
 });
