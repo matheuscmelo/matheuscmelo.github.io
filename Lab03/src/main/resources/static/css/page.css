@@ -1,0 +1,101 @@
+/*
+ * Row with equal height columns
+ * --------------------------------------------------
+ */
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+
+/*
+ * Styles copied from the Grid example to make grid rows & columns visible.
+ */
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+h4 {
+  margin-top: 25px;
+}
+.row {
+  margin-bottom: 10px;
+}
+.row .row {
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding: 15px;
+}
+
+/*
+ * Callout styles copied from Bootstrap's main docs.
+ */
+/* Common styles for all types */
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #000000;
+}
+
+.thumbnail:hover .overlay {
+  opacity: 0.8;
+}
+
+.text {
+  opacity: 1;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.series-icons {
+  opacity: 1;
+	cursor: pointer;
+	color: white;
+	font-size: 50px;
+	position: absolute;
+	top: 80%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.series-text {
+  left: 2%;
+}
+
+.serie-rating-input {
+  width=10%;
+}
