@@ -21,13 +21,14 @@ public class UserController {
 	@Autowired
 	private UserRepository users;
 
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "register/",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> registerUser(@RequestBody User user) {
 		users.save(user);
 		UserDTO userDTO = user.getDTO();
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
-	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(value = "id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id) {
 		User user = users.getOne(id);
 		if(user == null) {
@@ -35,6 +36,25 @@ public class UserController {
 		}
 		UserDTO userDTO = user.getDTO();
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+	}
+	@RequestMapping(value = "validate/",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> validateUser(@RequestBody User user) {
+		User registeredUser = users.getOne(user.getId());
+		if (registeredUser == null) {
+			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+		}
+		
+		if(!registeredUser.getPassword().equals(user.getPassword())) {
+			return new ResponseEntity<UserDTO>(HttpStatus.UNAUTHORIZED);
+		} else {
+			return new ResponseEntity<UserDTO>(registeredUser.getDTO(), HttpStatus.OK);
+		}
+	}
+	
+	@RequestMapping(value = "save/",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity saveUser(@RequestBody User user) {
+		users.save(user);
+		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
 	
 }

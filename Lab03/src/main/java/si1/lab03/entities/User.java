@@ -36,6 +36,10 @@ public class User {
 		return id;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
 	public void addToMySeries(Serie serie) {
 		this.series.add(serie);
 	}
