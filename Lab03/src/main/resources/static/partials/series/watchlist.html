@@ -1,0 +1,30 @@
+  <div class="row">
+    <div class="col-md-12">
+    <input ng-model="watchlistSerieTitle" class="form-control" placeholder="Filtrar..."></div>
+  </div>
+  <div class="row row-eq-height" ng-repeat="row in chunkedWatchlist">
+  <div class="col-md-3 thumbnail" ng-repeat="serie in row | filter: titleFilter(watchlistSerieTitle)">
+    <img class="center-block img-responsive" ng-if="serie.Poster != 'N/A'" src="{{serie.Poster}}" class="image">
+    <img class="center-block img-responsive" ng-if="serie.Poster == 'N/A'" src="http://donosdeestimacao.com.br/wp-content/uploads/2015/12/sem-imagem2-300x300.png" class="image">
+    <div class="overlay">
+        <div class="text">
+        <span>{{serie.Title}}</span></div>
+        <div class="row">
+          <div class="series-icons">
+            <div class="dropdown">
+              <i data-toggle="dropdown" class="dropdown-toggle series-icons glyphicon glyphicon-plus-sign"></i>
+              <span class="caret"></span>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="dropdown-header">Adicionar à...</li>
+                <li><a ng-click="addToMySeries(serie)">Minhas Séries</a></li>
+              </ul>
+             </div>
+          </div>
+    </div>
+</div>
+
+
+
+</div>
+
+</div>

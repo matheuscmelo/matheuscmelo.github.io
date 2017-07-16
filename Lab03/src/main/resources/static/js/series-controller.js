@@ -1,12 +1,12 @@
-angular.module('Series').controller('SeriesController', ['$scope','RESTService','SeriesRepository', '$http', SeriesController]);
+angular.module('Series').controller('SeriesController', ['$scope', '$state','RESTService','SeriesRepository', '$http', SeriesController]);
 
 
-function SeriesController ($scope, RESTService, SeriesRepository) {
+function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 	$scope.chunkedMySeries = [];
 	$scope.chunkedSearchedSeries = [];
 	$scope.chunkedWatchlist = [];
 	$scope.searched = false;
-
+	
 	function chunkMySeries() {
 		$scope.chunkedMySeries = SeriesRepository.getChunkedMySeries();
 	}
@@ -83,7 +83,18 @@ function SeriesController ($scope, RESTService, SeriesRepository) {
 	$scope.setMyScore = function(score, serie) {
 		SeriesRepository.setMyScore(score, serie);
 	}
-
-
+	
+	$scope.toMySeries = function() {
+		$state.transitionTo('series.myseries');
+		console.log($scope.chunkedMySeries);
+	}
+	
+	$scope.toWatchlist = function() {
+		$state.transitionTo('series.watchlist');
+	}
+	
+	$scope.toSearch = function() {
+		$state.transitionTo('series.search');
+	}
 
 };

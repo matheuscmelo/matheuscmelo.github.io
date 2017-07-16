@@ -1,39 +1,44 @@
 angular.module('Series').service('SeriesRepository', function() {
-  this.mySeries = [];
-  this.watchlist = [];
-  this.addToMySeries = addToMySeries;
-  this.removeFromMySeries = removeFromMySeries;
-  this.removeFromWatchlist = removeFromWatchlist;
-  this.addToWatchlist = addToWatchlist;
-  this.getChunkedMySeries = getChunkedMySeries;
-  this.getChunkedWatchlist = getChunkedWatchlist;
-  this.setLastEpisode = setLastEpisode;
-  this.setMyScore = setMyScore;
-
-  function addToMySeries(serie) {
-    if (!containsSerie(this.mySeries, serie)) {
-			this.mySeries.push(serie);
-      return true;
-    } else {
-      return false;
-    }
+	this.user = {};
+	this.addToMySeries = addToMySeries;
+	this.removeFromMySeries = removeFromMySeries;
+	this.removeFromWatchlist = removeFromWatchlist;
+	this.addToWatchlist = addToWatchlist;
+	this.getChunkedMySeries = getChunkedMySeries;
+	this.getChunkedWatchlist = getChunkedWatchlist;
+	this.setLastEpisode = setLastEpisode;
+	this.setMyScore = setMyScore;
+	this.setUser = setUser;
+	this.printUser = printUser;
+	
+	console.log(this.user);
+	
+	function addToMySeries(serie) {
+		console.log(this.user.series);
+	    if (!containsSerie(this.user.series, serie)) {
+	    	this.user.series.push(serie);
+	    	return true;
+	    } else {
+	    	return false;
+	    }
 	};
 
-  function removeFromMySeries(serie) {
-      removeSerie(this.mySeries, serie);
+ 	function removeFromMySeries(serie) {
+      removeSerie(this.user.series, serie);
   };
 
-  function addToWatchlist(serie) {
-    if(!containsSerie(this.watchlist, serie) && !containsSerie(this.mySeries, serie)) {
-      this.watchlist.push(serie);
-      return true;
-    } else {
-      return false;
-    }
+  	function addToWatchlist(serie) {
+	    if(!containsSerie(this.user.watchList, serie) && !containsSerie(this.user.series, serie)) {
+	      this.user.watchList.push(serie);
+	      return true;
+	    } else {
+	      return false;
+	    }
+	    console.log(this.user.series);
   }
 
   function removeFromWatchlist(serie) {
-    removeSerie(this.watchlist, serie);
+    removeSerie(this.user.watchList, serie);
   };
 
   function removeSerie(array, serie) {
@@ -44,11 +49,11 @@ angular.module('Series').service('SeriesRepository', function() {
   };
 
   function getChunkedMySeries() {
-    return chunk(this.mySeries, 4);
+    return chunk(this.user.series, 4);
   }
 
   function getChunkedWatchlist() {
-    return chunk(this.watchlist, 4);
+    return chunk(this.user.watchList, 4);
   }
 
   function containsSerie(array, serie) {
@@ -75,6 +80,15 @@ angular.module('Series').service('SeriesRepository', function() {
   function setMyScore(score, serie) {
 		serie.MyScore = score;
 	};
+	
+  function setUser(user) {
+	  this.user = user;
+	  console.log(this.user);
+  }
+  
+  function printUser() {
+	  console.log(this.user);
+  }
 
 
 });
