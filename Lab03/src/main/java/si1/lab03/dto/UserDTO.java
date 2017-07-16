@@ -3,16 +3,23 @@ package si1.lab03.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import si1.lab03.entities.Serie;
 
 public class UserDTO {
+	@JsonProperty(value = "id")
 	private Long id;
-	private String username;
-	//por algum motivo essas listas nao estao entrando no json caso sejam private
-	public Set<Serie> series;
-	public Set<Serie> watchList;
+	@JsonProperty(value = "name")
+	private String name;
+	@JsonProperty(value = "email")
+	private String email;
+	@JsonProperty(value = "series")
+	private Set<Serie> series;
+	@JsonProperty(value = "watchList")
+	private Set<Serie> watchList;
 
-	public UserDTO(Long id, String username, Set<Serie> series, Set<Serie> watchList) {
+	public UserDTO(Long id, String name, String email, Set<Serie> series, Set<Serie> watchList) {
 		if (series == null) {
 			series = new HashSet<>();
 		}
@@ -20,7 +27,8 @@ public class UserDTO {
 			watchList = new HashSet<>();
 		}
 		this.id = id;
-		this.username = username;
+		this.name = name;
+		this.email = email;
 		this.series = series;
 		this.watchList = watchList;
 	}
@@ -30,7 +38,7 @@ public class UserDTO {
 	}
 
 	public String getUsername() {
-		return username;
+		return name;
 	}
 
 }
