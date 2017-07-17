@@ -2,9 +2,9 @@
 <div class = "container">
     <!-- Tabs de navegacao -->
       <ul class="nav nav-tabs">
-        <li class="active" ng-click="toSearch()"><a >Home</a></li>
-        <li><a ng-click="toMySeries()">Minhas Series</a></li>
-        <li><a ng-click="toWatchlist()">Watchlist</a></li>
+        <li class="active"><a data-toggle="tab" ng-click="toSearch()" href="">Home</a></li>
+        <li><a data-toggle="tab" ng-click="toMySeries()" href="">Minhas Series</a></li>
+        <li><a data-toggle="tab" ng-click="toWatchlist()" href="">Watchlist</a></li>
       </ul>
      <!--  Conteudo das tabs de navegacao -->
      <div ui-view></div>

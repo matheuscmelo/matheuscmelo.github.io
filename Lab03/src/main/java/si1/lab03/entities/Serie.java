@@ -5,17 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity(name="Serie")
+//@Table(name="series")
 public class Serie {
+
 	@Id
-	@JsonProperty(value="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@Column
 	@JsonProperty(value="imdbID")
-	private String imdbID;
+	private String imdb;
 	@Column
 	@JsonProperty(value="Title")
 	private String title;
@@ -36,7 +41,7 @@ public class Serie {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((imdbID == null) ? 0 : imdbID.hashCode());
+		result = prime * result + ((imdb == null) ? 0 : imdb.hashCode());
 		return result;
 	}
 	@Override
@@ -48,13 +53,20 @@ public class Serie {
 		if (getClass() != obj.getClass())
 			return false;
 		Serie other = (Serie) obj;
-		if (imdbID == null) {
-			if (other.imdbID != null)
+		if (imdb == null) {
+			if (other.imdb != null)
 				return false;
-		} else if (!imdbID.equals(other.imdbID))
+		} else if (!imdb.equals(other.imdb))
 			return false;
 		return true;
 	}
 	
+	public Long getId() {
+		return this.id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 }

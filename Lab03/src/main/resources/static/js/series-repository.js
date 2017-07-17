@@ -10,8 +10,11 @@ angular.module('Series').service('SeriesRepository', function() {
 	this.setMyScore = setMyScore;
 	this.setUser = setUser;
 	this.printUser = printUser;
+	this.getUserId = getUserId;
 	
-	console.log(this.user);
+	function getUserId(){
+		return this.user.id;
+	};
 	
 	function addToMySeries(serie) {
 		console.log(this.user.series);

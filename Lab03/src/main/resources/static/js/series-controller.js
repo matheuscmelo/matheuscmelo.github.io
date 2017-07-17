@@ -28,6 +28,8 @@ function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 			promise.then(function(response) {
 				if(SeriesRepository.addToMySeries(response.data)) {
 					SeriesRepository.removeFromWatchlist(serie);
+					var userId = SeriesRepository.getUserId();
+					RESTService.addToMySeries(userId, response.data);
 					chunkMySeries();
 					chunkWatchlist();
 				} else {
@@ -40,6 +42,7 @@ function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 
 	$scope.removeFromMySeries = function(serie) {
 		if(confirm('Deseja realmente remover esta série?')) {
+			
 			SeriesRepository.removeFromMySeries(serie);
 			chunkMySeries();
 			alert('Série removida.');
@@ -73,6 +76,9 @@ function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 
 	$scope.addToWatchlist = function(serie) {
 		SeriesRepository.addToWatchlist(serie);
+		var userId = SeriesRepository.getUserId();
+		RESTService.addToWatchlist(userId, serie);
+		
 		chunkWatchlist();
 	};
 
@@ -96,5 +102,8 @@ function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 	$scope.toSearch = function() {
 		$state.transitionTo('series.search');
 	}
-
+	
+	
+	chunkWatchlist();
+	chunkMySeries();
 };

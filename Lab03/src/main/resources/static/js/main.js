@@ -20,6 +20,11 @@ angular.module('Series', ['ui.router'])
 		url:'/register',
 		templateUrl: 'partials/register.html',
 		controller: 'RegisterController'
+	})
+	.state('login', {
+		url:'/login',
+		templateUrl: 'partials/login.html',
+		controller: 'LoginController'
 	});
 	
 	$urlRouterProvider.otherwise('/register');

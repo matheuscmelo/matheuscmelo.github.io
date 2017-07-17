@@ -3,11 +3,11 @@ package si1.lab03.entities;
 import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import si1.lab03.dto.UserDTO;
@@ -18,16 +18,16 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long id;
 	@Column
 	private String name;
 	@Column
 	private String email;
 	@Column
 	private String password;
-	@ElementCollection
+	@OneToMany
 	private Set<Serie> series;
-	@ElementCollection
+	@OneToMany
 	private Set<Serie> watchList;
 
 	public String getName() {
@@ -46,12 +46,12 @@ public class User {
 		return this.email;
 	}
 
-	public void addToMySeries(Serie serie) {
-		this.series.add(serie);
+	public boolean addToMySeries(Serie serie) {
+		return this.series.add(serie);
 	}
 
-	public void addToWatchlist(Serie serie) {
-		this.watchList.add(serie);
+	public boolean addToWatchlist(Serie serie) {
+		return this.watchList.add(serie);
 	}
 
 	public UserDTO getDTO() {

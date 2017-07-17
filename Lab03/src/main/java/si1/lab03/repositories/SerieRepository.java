@@ -1,5 +1,9 @@
 package si1.lab03.repositories;
 
-public interface SerieRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import si1.lab03.entities.Serie;
+
+public interface SerieRepository extends JpaRepository<Serie,Long> {
 
 }
