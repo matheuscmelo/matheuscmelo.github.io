@@ -1,6 +1,5 @@
 package si1.lab03.rest;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +22,7 @@ public class UserController {
 
 	@Autowired
 	private UserService users;
-	
+
 	@Autowired
 	private SerieService series;
 
@@ -37,11 +36,11 @@ public class UserController {
 	@RequestMapping(value = "id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id) {
 		User user = users.getUser(id);
-		
+
 		if (user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		UserDTO userDTO = user.getDTO();
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
@@ -56,23 +55,38 @@ public class UserController {
 
 		return new ResponseEntity<UserDTO>(registeredUser.getDTO(), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "id/{userId}/series", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void addToMySeries(@PathVariable("userId") Long userId, @RequestBody Serie serie) {
-		System.out.println(serie.getId());
 		User user = users.getUser(userId);
-		if(user.addToMySeries(serie)) {
+		user.addToMySeries(serie);
+		series.saveSerie(serie);
+		users.saveUser(user);
+	}
+
+	@RequestMapping(value = "id/{userId}/watchlist", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addToWatchlist(@PathVariable("userId") Long userId, @RequestBody Serie serie) {
+		User user = users.getUser(userId);
+		if (user.addToWatchlist(serie)) {
 			series.saveSerie(serie);
 			users.saveUser(user);
 		}
 	}
-	
-	@RequestMapping(value = "id/{userId}/watchlist", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addToWatchlist(@PathVariable("userId") Long userId, @RequestBody Serie serie) {
-		System.out.println(serie.getId());
+
+	@RequestMapping(value = "id/{userId}/series/{serieId}", method = RequestMethod.DELETE)
+	public void removeFromMySeries(@PathVariable("userId") Long userId, @PathVariable Long serieId) {
 		User user = users.getUser(userId);
-		if(user.addToWatchlist(serie)) {
-			series.saveSerie(serie);
+		Serie serie = series.getSerie(serieId);
+		if (user.removeFromMySeries(serie)) {
+			users.saveUser(user);
+		}
+	}
+
+	@RequestMapping(value = "id/{userId}/watchlist/{serieId}", method = RequestMethod.DELETE)
+	public void removeFromWatchlist(@PathVariable("userId") Long userId, @PathVariable Long serieId) {
+		User user = users.getUser(userId);
+		Serie serie = series.getSerie(serieId);
+		if (user.removeFromWatchlist(serie)) {
 			users.saveUser(user);
 		}
 	}

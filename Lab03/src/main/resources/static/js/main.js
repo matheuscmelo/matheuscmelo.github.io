@@ -1,5 +1,5 @@
 angular.module('Series', ['ui.router'])
-.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
 	$stateProvider
 	.state('series', {
@@ -22,13 +22,12 @@ angular.module('Series', ['ui.router'])
 		controller: 'RegisterController'
 	})
 	.state('login', {
-		url:'/login',
+		url:'/',
 		templateUrl: 'partials/login.html',
 		controller: 'LoginController'
 	});
 	
-	$urlRouterProvider.otherwise('/register');
+	$urlRouterProvider.otherwise('/');
 	
 	$locationProvider.html5Mode({ enabled: true, requireBase: false });
-
 });

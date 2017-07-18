@@ -42,7 +42,8 @@ function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 
 	$scope.removeFromMySeries = function(serie) {
 		if(confirm('Deseja realmente remover esta série?')) {
-			
+			var userId = SeriesRepository.getUserId();
+			RESTService.removeFromMySeries(userId, serie.id);
 			SeriesRepository.removeFromMySeries(serie);
 			chunkMySeries();
 			alert('Série removida.');
@@ -84,15 +85,18 @@ function SeriesController ($scope, $state, RESTService, SeriesRepository) {
 
 	$scope.setLastEpisode = function(name, serie) {
 		SeriesRepository.setLastEpisode(name, serie);
+		var userId = SeriesRepository.getUserId();
+		RESTService.addToMySeries(userId, serie);
 	};
 
 	$scope.setMyScore = function(score, serie) {
 		SeriesRepository.setMyScore(score, serie);
+		var userId = SeriesRepository.getUserId();
+		RESTService.addToMySeries(userId, serie);
 	}
 	
 	$scope.toMySeries = function() {
 		$state.transitionTo('series.myseries');
-		console.log($scope.chunkedMySeries);
 	}
 	
 	$scope.toWatchlist = function() {

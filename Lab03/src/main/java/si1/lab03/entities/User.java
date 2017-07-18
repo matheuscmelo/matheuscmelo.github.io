@@ -46,12 +46,21 @@ public class User {
 		return this.email;
 	}
 
-	public boolean addToMySeries(Serie serie) {
-		return this.series.add(serie);
+	public void addToMySeries(Serie serie) {
+		this.series.remove(serie);
+		this.series.add(serie);	
 	}
 
 	public boolean addToWatchlist(Serie serie) {
 		return this.watchList.add(serie);
+	}
+	
+	public boolean removeFromMySeries(Serie serie) {
+		return this.series.remove(serie);
+	}
+	
+	public boolean removeFromWatchlist(Serie serie) {
+		return this.watchList.remove(serie);
 	}
 
 	public UserDTO getDTO() {

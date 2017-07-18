@@ -34,6 +34,9 @@ public class Serie {
 	@JsonProperty(value="MyScore")
 	private String myScore;
 	@Column
+	@JsonProperty(value="LastEpisode")
+	private String lastEpisode;
+	@Column
 	@JsonProperty(value="Poster")
 	private String Poster;
 	

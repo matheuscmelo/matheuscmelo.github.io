@@ -6,6 +6,7 @@ angular.module('Series').service('RESTService', function($http) {
   this.login = login;
   this.addToMySeries = addToMySeries;
   this.addToWatchlist = addToWatchlist;
+  this.removeFromMySeries = removeFromMySeries;
   function getShortSeries(name) {
   		var promise = $http.get('https://omdbapi.com/?s=' + name + '&type=series&apikey=93330d3c');
   		return promise;
@@ -32,6 +33,10 @@ angular.module('Series').service('RESTService', function($http) {
     
     function addToWatchlist(id, serie) {
     	$http.put('api/user/id/' + id + '/watchlist/', serie);
+    };
+    
+    function removeFromMySeries(id, serie) {
+    	$http.delete('api/user/id/' + id + '/series/' + serie);
     };
 
 });
