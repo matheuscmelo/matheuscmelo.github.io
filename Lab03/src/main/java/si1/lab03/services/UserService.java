@@ -27,7 +27,7 @@ public class UserService {
 	public Long getUserIdByEmail(String email) {
 		String sql = "SELECT * FROM users WHERE email = ?";
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:h2:file:~/h2/app", "sa", "");
+			Connection connection = DriverManager.getConnection("jdbc:postgresql:lab03", "postgres", "12345");
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, email);
